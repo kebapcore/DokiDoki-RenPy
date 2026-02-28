@@ -14,8 +14,14 @@ init python:
 
     full_wordlist = []
 
-    with renpy.file('poemwords.txt', encoding="UTF-8") as wordfile:
-        for line in wordfile:
+    # older Ren'Py releases don't accept an encoding argument on renpy.file()
+    with renpy.file('poemwords.txt') as wordfile:
+        # read lines as bytes, decode if necessary
+        for raw in wordfile:
+            try:
+                line = raw.decode('utf-8').strip()
+            except AttributeError:
+                line = raw.strip()
             line = line.strip()
 
             if line == '' or line[0] == '#':
