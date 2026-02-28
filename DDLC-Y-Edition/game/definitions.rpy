@@ -5,6 +5,13 @@ define config.developer = False
 python early:
     import singleton
 
+    # make Composite available globally for image definitions that use it
+    try:
+        from renpy.display.layout import Composite
+    except Exception:
+        # older renpy versions might place it elsewhere
+        from renpy.display.image import Composite
+
     me = singleton.SingleInstance()
 
 init python:
